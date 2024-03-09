@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+<!-- Toolbar -->
+<androidx.appcompat.widget.Toolbar
+     android:id="@+id/my_toolbar"
+     android:layout_width="match_parent"
+     android:layout_height="?attr/actionBarSize"
+     android:background="?attr/colorPrimary"
+     android:elevation="4dp"
+     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+     app:title="pin-encrypter"
+     />
+
+<!-- PIN Field -->
+<TextView
+    android:layout_width="match_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/pin_label"
+    />
+<EditText
+    android:id="@+id/pin_field"
+    android:layout_width="match_parent" 
+    android:layout_height="wrap_content" 
+    android:hint="@string/pin_hint"
+    android:autofillHints="@string/pin_hint"
+    android:inputType="textAutoComplete"
+    android:freezesText="true"
+    android:minHeight="48dp"
+    />
+
+<!-- Key Field -->
+<TextView
+    android:layout_width="match_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/key_label"
+    />
+<EditText
+    android:id="@+id/key_field"
+    android:layout_width="match_parent" 
+    android:layout_height="wrap_content" 
+    android:hint="@string/key_hint"
+    android:autofillHints="@string/key_hint"
+    android:inputType="textPassword"
+    android:freezesText="true"
+    android:minHeight="48dp"
+    />
+
+<!-- Encode Button -->
+<Button
+    android:id="@+id/encode_button"
+    android:layout_width="match_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/encode_label"
+    />
+
+<!-- Decode Button -->
+<Button
+    android:id="@+id/decode_button"
+    android:layout_width="match_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/decode_label"
+    />
+
+<!-- Result Field -->
+<TextView
+    android:layout_width="match_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/result_label"
+    />
+<EditText
+    android:id="@+id/result_field"
+    android:layout_width="match_parent" 
+    android:layout_height="wrap_content" 
+    android:hint="@string/result_hint"
+    android:autofillHints="@string/result_hint"
+    android:inputType="textMultiLine"
+    android:freezesText="true"
+    android:minHeight="48dp"
+    />
+</LinearLayout>
