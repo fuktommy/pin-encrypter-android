@@ -43,26 +43,45 @@ public class Encoder {
         final Mac mac = Mac.getInstance(algo);
         mac.init(keySpec);
         final byte[] sign = mac.doFinal(pin.getBytes());
-        final StringBuilder fullDigest = new StringBuilder();
+        final StringBuilder digest = new StringBuilder(length);
+        int size = 0;
         for (byte b : sign) {
-            fullDigest.append(String.format("%02x", b & 0xff));
+            final String hex = String.format("%02x", b & 0xff);
+            final char c0 = hex.charAt(0);
+            final char c1 = hex.charAt(1);
+            if ('0' <= c0 && c0 <= '9') {
+                digest.append(c0);
+                size++;
+            }
+            if (length == size) {
+                break;
+            }
+            if ('0' <= c1 && c1 <= '9') {
+                digest.append(c1);
+                size++;
+            }
+            if (length == size) {
+                break;
+            }
         }
-        final String digest = fullDigest.toString().replaceAll("[a-f]", "");
-        if (digest.equals(pin)) {
+        final String result = digest.toString();
+        if (size < length) {
+            return result + encodeToken(key + key, pin, length - size);
+        } else if (result.equals(pin)) {
             return encodeToken(key + key, pin, length);
-        } else if (digest.length() < length) {
-            return digest + encodeToken(key + key, pin, length - digest.length());
         } else {
-            return digest.substring(0, length);
+            return result;
         }
     }
 
     List<String> decodeToken(String key, String pin)
             throws InvalidKeyException, NoSuchAlgorithmException {
-        List<String> result = new ArrayList<>();
+        final List<String> result = new ArrayList<>();
         final int length = pin.length();
-        for (int i = 0; i < Math.pow(10, length); i++) {
-            String p = String.format(String.format(Locale.US, "%%0%dd", length), i);
+        final String format = String.format(Locale.US, "%%0%dd", length);
+        final int limit = (int)Math.pow(10, length);
+        for (int i = 0; i < limit; i++) {
+            final String p = String.format(format, i);
             if (encodeToken(key, p, length).equals(pin)) {
                 result.add(p);
             }
@@ -72,8 +91,8 @@ public class Encoder {
 
     String encode(String key, String pin)
             throws InvalidKeyException, NoSuchAlgorithmException {
-        List<String> digests = new ArrayList<>();
-        for (String p : pin.split("((?<=\\D)|(?=\\D))")) {
+        final List<String> digests = new ArrayList<>();
+        for (final String p : pin.split("((?<=\\D)|(?=\\D))")) {
             if (p.matches("\\d+")) {
                 digests.add(encodeToken(key, p, p.length()));
             } else {
@@ -85,12 +104,12 @@ public class Encoder {
 
     List<List<String>> decode(String key, String pin)
             throws InvalidKeyException, NoSuchAlgorithmException {
-        List<List<String>> digests = new ArrayList<>();
-        for (String p : pin.split("((?<=\\D)|(?=\\D))")) {
+        final List<List<String>> digests = new ArrayList<>();
+        for (final String p : pin.split("((?<=\\D)|(?=\\D))")) {
             if (p.matches("\\d+")) {
                 digests.add(decodeToken(key, p));
             } else {
-                List<String> list = new ArrayList<>();
+                final List<String> list = new ArrayList<>();
                 list.add(p);
                 digests.add(list);
             }

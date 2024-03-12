@@ -12,6 +12,8 @@
     <string name="key_hint">password</string>
     <string name="result_hint">result</string>
     <string name="result_label">Result</string>
+    <string name="wait_message">please wait…</string>
+    <string name="not_found_message">PINs not found</string>
     <string name="about_message">
         This is a simple pin encrypter.
         </string>

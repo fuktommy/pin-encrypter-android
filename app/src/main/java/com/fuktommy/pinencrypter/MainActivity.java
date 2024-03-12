@@ -27,7 +27,6 @@
 package com.fuktommy.pinencrypter;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -35,7 +34,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -55,7 +53,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar tb = (Toolbar) findViewById(R.id.my_toolbar);
+        final Toolbar tb = findViewById(R.id.my_toolbar);
         setSupportActionBar(tb);
 
         setEncodeButtonClickListener();
@@ -65,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
-        MenuItem aboutItem = menu.add(0, MENU_ITEM_ABOUT, 0, R.string.about);
+        final MenuItem aboutItem = menu.add(0, MENU_ITEM_ABOUT, 0, R.string.about);
         aboutItem.setIcon(android.R.drawable.ic_menu_info_details);
         return true;
     }
@@ -85,7 +83,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 encode();
             } catch (Exception e) {
-                displayError("Error " + e.getMessage());
+                displayError(getText(R.string.error) + " " + e.getMessage());
             }
         });
     }
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 decode();
             } catch (Exception e) {
-                displayError("Error " + e.getMessage());
+                displayError(getText(R.string.error) + " " + e.getMessage());
             }
         });
     }
@@ -119,28 +117,28 @@ public class MainActivity extends AppCompatActivity
     private void decode() {
         final String pin = getTextViewValue(R.id.pin_field);
         final String key = getTextViewValue(R.id.key_field);
-        final Context self = this;
         final Handler handler= new Handler();
-        Toast.makeText(this, "please wait...", Toast.LENGTH_LONG).show();
+        handler.post(() -> setTextViewValue(R.id.result_field, getText(R.string.wait_message).toString()));
         new Thread(() -> {
             try {
                 final List<List<String>> result = new Encoder().decode(key, pin);
                 final List<String> lines = new ArrayList<>();
-                for (List<String> list : result) {
-                    lines.add(String.join(" ", list));
+                for (final List<String> list : result) {
+                    if (list.isEmpty()) {
+                        lines.add(getText(R.string.not_found_message).toString());
+                    } else {
+                        lines.add(String.join(" ", list));
+                    }
                 }
-                handler.post(() -> {
-                    setTextViewValue(R.id.result_field, String.join("\n", lines));
-                    Toast.makeText(self, "finished.", Toast.LENGTH_SHORT).show();
-                });
+                handler.post(() -> setTextViewValue(R.id.result_field, String.join("\n", lines)));
             } catch (Exception e) {
-                displayError("Error " + e.getMessage());
+                displayError(getText(R.string.error) + " " + e.getMessage());
             }
         }).start();
     }
 
     private void displayDialog(int title, String message) {
-        DialogInterface.OnClickListener ocl
+        final DialogInterface.OnClickListener ocl
                 = (dialog, whichButton) -> setResult(RESULT_OK);
         new AlertDialog.Builder(this)
                 .setTitle(title)
@@ -150,7 +148,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void displayAbout() {
-        String message = getText(R.string.about_message)
+        final String message = getText(R.string.about_message)
                 + "\n\n\n"
                 + getText(R.string.license);
         displayDialog(R.string.about, message);
