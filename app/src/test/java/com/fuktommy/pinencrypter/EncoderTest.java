@@ -33,28 +33,39 @@ import java.util.List;
 public class EncoderTest extends TestCase {
 
     public void testEncodeToken() throws Exception {
-        String result1 = new Encoder().encodeToken("key", "1234", 4);
+        final String result1 = new Encoder().encodeToken("key", "1234", 4);
         assertEquals("5793", result1);
 
-        String result2 = new Encoder().encodeToken("key", "1234", 10);
+        final String result2 = new Encoder().encodeToken("key", "1234", 10);
         assertEquals("5793116204", result2);
     }
 
     public void testDecodeToken() throws Exception {
-        List<String> result = new Encoder().decodeToken("key", "5792");
+        final List<String> result = new Encoder().decodeToken("key", "5792");
         assertEquals("1558,4657", String.join(",", result));
     }
 
     public void testEncode() throws Exception {
-        String result = new Encoder().encode("key", "1234-5678");
-        assertEquals("5793-9976", result);
+        final String result1 = new Encoder().encode("key", "1234-5678");
+        assertEquals("5793-9976", result1);
+
+        // 全角文字は数字扱いされない
+        final String result2 = new Encoder().encode("key", "1２3");
+        assertEquals("5２0", result2);
     }
 
     public void testDecode() throws Exception {
-        List<List<String>> result = new Encoder().decode("key", "5793-5792");
-        assertEquals(3, result.size());
-        assertEquals("1234", String.join(",", result.get(0)));
-        assertEquals("-", String.join(",", result.get(1)));
-        assertEquals("1558,4657", String.join(",", result.get(2)));
+        final List<List<String>> result1 = new Encoder().decode("key", "5793-5792");
+        assertEquals(3, result1.size());
+        assertEquals("1234", String.join(",", result1.get(0)));
+        assertEquals("-", String.join(",", result1.get(1)));
+        assertEquals("1558,4657", String.join(",", result1.get(2)));
+
+        // 全角文字は数字扱いされない
+        final List<List<String>> result2 = new Encoder().decode("key", "5２0");
+        assertEquals(3, result2.size());
+        assertEquals("1", String.join(",", result2.get(0)));
+        assertEquals("２", String.join(",", result2.get(1)));
+        assertEquals("3,9", String.join(",", result2.get(2)));
     }
 }

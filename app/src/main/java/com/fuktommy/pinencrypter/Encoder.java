@@ -36,7 +36,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Encoder {
-    String encodeToken(String key, String pin, int length)
+    String encodeToken(final String key, final String pin, final int length)
             throws InvalidKeyException, NoSuchAlgorithmException {
         final String algo = "HMacSHA512";
         final SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), algo);
@@ -74,7 +74,7 @@ public class Encoder {
         }
     }
 
-    List<String> decodeToken(String key, String pin)
+    List<String> decodeToken(final String key, final String pin)
             throws InvalidKeyException, NoSuchAlgorithmException {
         final List<String> result = new ArrayList<>();
         final int length = pin.length();
@@ -89,11 +89,11 @@ public class Encoder {
         return result;
     }
 
-    String encode(String key, String pin)
+    String encode(final String key, final String pin)
             throws InvalidKeyException, NoSuchAlgorithmException {
         final List<String> digests = new ArrayList<>();
-        for (final String p : pin.split("((?<=\\D)|(?=\\D))")) {
-            if (p.matches("\\d+")) {
+        for (final String p : pin.split("((?<=[^0-9])|(?=[^0-9]))")) {
+            if (p.matches("[0-9]+")) {
                 digests.add(encodeToken(key, p, p.length()));
             } else {
                 digests.add(p);
@@ -102,11 +102,11 @@ public class Encoder {
         return String.join("", digests);
     }
 
-    List<List<String>> decode(String key, String pin)
+    List<List<String>> decode(final String key, final String pin)
             throws InvalidKeyException, NoSuchAlgorithmException {
         final List<List<String>> digests = new ArrayList<>();
-        for (final String p : pin.split("((?<=\\D)|(?=\\D))")) {
-            if (p.matches("\\d+")) {
+        for (final String p : pin.split("((?<=[^0-9])|(?=[^0-9]))")) {
+            if (p.matches("[0-9]+")) {
                 digests.add(decodeToken(key, p));
             } else {
                 final List<String> list = new ArrayList<>();

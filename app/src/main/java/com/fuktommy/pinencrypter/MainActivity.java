@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity
     private final static int MENU_ITEM_ABOUT = 0;
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    public void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
         final MenuItem aboutItem = menu.add(0, MENU_ITEM_ABOUT, 0, R.string.about);
         aboutItem.setIcon(android.R.drawable.ic_menu_info_details);
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == MENU_ITEM_ABOUT) {
             displayAbout();
             return true;
@@ -99,11 +99,11 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private String getTextViewValue(int id) {
+    private String getTextViewValue(final int id) {
         return ((TextView) findViewById(id)).getText().toString();
     }
 
-    private void setTextViewValue(int id, String value) {
+    private void setTextViewValue(final int id, final String value) {
         ((TextView) findViewById(id)).setText(value);
     }
 
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity
         }).start();
     }
 
-    private void displayDialog(int title, String message) {
+    private void displayDialog(final int title, final String message) {
         final DialogInterface.OnClickListener ocl
                 = (dialog, whichButton) -> setResult(RESULT_OK);
         new AlertDialog.Builder(this)
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity
         displayDialog(R.string.about, message);
     }
 
-    private void displayError(String message) {
+    private void displayError(final String message) {
         displayDialog(R.string.error, message);
     }
 }
