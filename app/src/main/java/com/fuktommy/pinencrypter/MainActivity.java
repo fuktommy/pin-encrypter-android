@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 Satoshi Fukutomi <info@fuktommy.com>.
+// Copyright (c) 2024 Satoshi Fukutomi.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 encode();
             } catch (Exception e) {
-                displayError(getText(R.string.error) + " " + e.getMessage());
+                displayError(e.getMessage());
             }
         });
     }
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 decode();
             } catch (Exception e) {
-                displayError(getText(R.string.error) + " " + e.getMessage());
+                displayError(e.getMessage());
             }
         });
     }
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 handler.post(() -> setTextViewValue(R.id.result_field, String.join("\n", lines)));
             } catch (Exception e) {
-                displayError(getText(R.string.error) + " " + e.getMessage());
+                displayError(e.getMessage());
             }
         }).start();
     }
@@ -148,9 +148,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void displayAbout() {
-        final String message = getText(R.string.about_message)
+        final String message = (getText(R.string.about_message)
                 + "\n\n\n"
-                + getText(R.string.license);
+                + getText(R.string.license))
+            .replaceAll("\n +", "\n");
         displayDialog(R.string.about, message);
     }
 

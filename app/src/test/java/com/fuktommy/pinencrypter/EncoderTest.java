@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2024 Satoshi Fukutomi <info@fuktommy.com>.
+// Copyright (c) 2024 Satoshi Fukutomi.
 // All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
