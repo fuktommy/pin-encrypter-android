@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 encode();
             } catch (Exception e) {
-                displayError(e.getMessage());
+                displayError(new Handler(), e.getMessage());
             }
         });
     }
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
             try {
                 decode();
             } catch (Exception e) {
-                displayError(e.getMessage());
+                displayError(new Handler(), e.getMessage());
             }
         });
     }
@@ -132,19 +132,21 @@ public class MainActivity extends AppCompatActivity
                 }
                 handler.post(() -> setTextViewValue(R.id.result_field, String.join("\n", lines)));
             } catch (Exception e) {
-                displayError(e.getMessage());
+                displayError(handler, e.getMessage());
             }
         }).start();
     }
 
-    private void displayDialog(final int title, final String message) {
-        final DialogInterface.OnClickListener ocl
-                = (dialog, whichButton) -> setResult(RESULT_OK);
-        new AlertDialog.Builder(this)
-                .setTitle(title)
-                .setMessage(message)
-                .setNeutralButton(R.string.ok, ocl)
-                .create().show();
+    private void displayDialog(final Handler handler, final int title, final String message) {
+        handler.post(() -> {
+            final DialogInterface.OnClickListener ocl
+                    = (dialog, whichButton) -> setResult(RESULT_OK);
+            new AlertDialog.Builder(this)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setNeutralButton(R.string.ok, ocl)
+                    .create().show();
+        });
     }
 
     private void displayAbout() {
@@ -152,10 +154,10 @@ public class MainActivity extends AppCompatActivity
                 + "\n\n\n"
                 + getText(R.string.license))
             .replaceAll("\n +", "\n");
-        displayDialog(R.string.about, message);
+        displayDialog(new Handler(), R.string.about, message);
     }
 
-    private void displayError(final String message) {
-        displayDialog(R.string.error, message);
+    private void displayError(final Handler handler, final String message) {
+        displayDialog(handler, R.string.error, message);
     }
 }
