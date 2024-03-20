@@ -28,6 +28,7 @@ package com.fuktommy.pinencrypter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -38,6 +39,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.oss.licenses.OssLicensesMenuActivity;
+
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -46,6 +49,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity
 {
     private final static int MENU_ITEM_ABOUT = 0;
+    private final static int MENU_ITEM_LICENSE = 1;
 
     @Override
     public void onCreate(final Bundle savedInstanceState)
@@ -63,8 +67,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(final Menu menu) {
         super.onCreateOptionsMenu(menu);
-        final MenuItem aboutItem = menu.add(0, MENU_ITEM_ABOUT, 0, R.string.about);
-        aboutItem.setIcon(android.R.drawable.ic_menu_info_details);
+        menu.add(0, MENU_ITEM_ABOUT, 0, R.string.about);
+        menu.add(0, MENU_ITEM_LICENSE, 0, R.string.license);
         return true;
     }
 
@@ -73,6 +77,10 @@ public class MainActivity extends AppCompatActivity
         if (item.getItemId() == MENU_ITEM_ABOUT) {
             displayAbout();
             return true;
+        }
+        if (item.getItemId() == MENU_ITEM_LICENSE) {
+            startActivity(new Intent(this, OssLicensesMenuActivity.class));
+            return false;
         }
         return true;
     }
@@ -152,7 +160,7 @@ public class MainActivity extends AppCompatActivity
     private void displayAbout() {
         final String message = (getText(R.string.about_message)
                 + "\n\n\n"
-                + getText(R.string.license))
+                + getText(R.string.license_message))
             .replaceAll("\n +", "\n");
         displayDialog(new Handler(), R.string.about, message);
     }

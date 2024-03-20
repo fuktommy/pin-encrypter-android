@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="about">About</string>
+    <string name="license">License</string>
     <string name="app_name">pin-encrypter</string>
     <string name="pin_hint">1234-5678</string>
     <string name="pin_label">PIN</string>
@@ -17,7 +18,7 @@
     <string name="about_message">
         This is a simple PIN encrypter.
         </string>
-    <string name="license">
+    <string name="license_message">
         Copyright (c) 2024 Satoshi Fukutomi.\n
         All rights reserved.\n
         \n
