@@ -10,8 +10,8 @@ android {
         applicationId "com.fuktommy.pinencrypter"
         minSdk 29
         targetSdk 33
-        versionCode 14
-        versionName "14"
+        versionCode 15
+        versionName "15"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

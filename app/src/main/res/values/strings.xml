@@ -15,7 +15,7 @@
     <string name="wait_message">please wait…</string>
     <string name="not_found_message">PINs not found</string>
     <string name="about_message">
-        This is a simple pin encrypter.
+        This is a simple PIN encrypter.
         </string>
     <string name="license">
         Copyright (c) 2024 Satoshi Fukutomi.\n
