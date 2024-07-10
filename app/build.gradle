@@ -5,14 +5,14 @@ plugins {
 
 android {
     namespace 'com.fuktommy.pinencrypter'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.fuktommy.pinencrypter"
         minSdk 29
-        targetSdk 33
-        versionCode 16
-        versionName "16"
+        targetSdk 34
+        versionCode 17
+        versionName "17"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
